@@ -5,15 +5,16 @@
     <meta charset="utf-8" />
     
     <!-- JQuery -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="scripts/jquery.min.js"></script>
 
+    <!-- Twitter Bootstrap -->
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link href="styles/bootstrap.min.css" rel="stylesheet" />
     <!-- Latest compiled and minified JavaScript -->
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="scripts/bootstrap.min.js"></script>
     
     <!-- Knockout JS -->
-    <script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js"></script>
+    <script src="scripts/knockout-3.1.0.js"></script>
     
     <title></title>
 </head>
@@ -22,13 +23,17 @@
         <div class="row">
             <div class="col-md-12"><span data-bind="text: 'BoldRadius Kanban'"></span></div>
         </div>
-        <div class="row">
-            <div class="col-md-4">.col-md-4</div>
-            <div class="col-md-4">.col-md-4</div>
-            <div class="col-md-4">.col-md-4</div>
-        </div>
+        <div data-bind="template: {name:'ProjectTemplate', foreach: board.projects}"></div>
     </div>
     
+    <script type="text/html" id="ProjectTemplate">
+        <div class="row">
+            <div class="col-md-3"><span data-bind="text:name"></span></div>
+            <!-- ko foreach: statuses -->
+                <div class="col-md-3"><span data-bind="text:name"></span></div>
+            <!-- /ko -->
+        </div>
+    </script>
     <script src="scripts/kanbanviewmodel.js"></script>
 </body>
 </html>
