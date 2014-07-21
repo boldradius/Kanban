@@ -12,6 +12,9 @@ var KanbanViewModel = {
                             tasks: [
                                 {
                                     description: "Project 1 Task 1"
+                                },
+                                {
+                                    description: "Project 1 Task 4"
                                 }
                             ]
                         },

@@ -26,14 +26,22 @@
         <div data-bind="template: {name:'ProjectTemplate', foreach: board.projects}"></div>
     </div>
     
+    <!-- Project Lane Template -->
     <script type="text/html" id="ProjectTemplate">
         <div class="row">
             <div class="col-md-3"><span data-bind="text:name"></span></div>
             <!-- ko foreach: statuses -->
-                <div class="col-md-3"><span data-bind="text:name"></span></div>
+            <div class="col-md-3">
+                <!-- ko foreach: tasks -->
+                <div class="well well-sm">
+                    <span data-bind="text:description"></span>
+                </div>
+                <!-- /ko -->
+            </div>
             <!-- /ko -->
         </div>
     </script>
+
     <script src="scripts/kanbanviewmodel.js"></script>
 </body>
 </html>
