@@ -48,7 +48,8 @@
                     <div class="status sortable-status col-lg-height col-top col-md-4" data-bind="attr: { 'status-id' : id }">
                         <!-- ko foreach: tasks -->
                         <div data-bind="attr: { 'task-id' : id }, click: function() {$root.editTask($data, $parents[0], $parents[1]);}" class="col-md-offset-1 col-md-5 well well-sm task">
-                            <span data-bind="text:description"></span>
+                            <span data-bind="text:name"></span><br />
+                            <span data-bind="text:description" class="small"></span>
                         </div>
                         <!-- /ko -->
                         <div data-bind="click: function() {$root.addTask($data, $parents[0]);}" class="col-md-offset-1 col-md-5"><span class="addLink">+Add Task</span></div>

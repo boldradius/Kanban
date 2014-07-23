@@ -46,14 +46,16 @@
      };
 
      self.taskForModal = BoldRadiusKanban.Model.Task(null, null, 0, 0);
-     self.statusForTaskModel = null;
-     self.projectForTaskModel = null;
+     self.statusForTaskModal = null;
+     self.projectForTaskModal = null;
      self.observeTask(self.taskForModal);
+     self.taskModalInEditMode = false;
+     self.taskObjectForEdit = null;
 
      self.addTask = function(status, project) {
          
-         self.statusForTaskModel = status;
-         self.projectForTaskModel = project;
+         self.statusForTaskModal = status;
+         self.projectForTaskModal = project;
 
          self.clearObservedTask(self.taskForModal);
 
@@ -63,11 +65,13 @@
      };
 
      self.editTask = function (task, status, project) {
-         self.statusForTaskModel = status;
-         self.projectForTaskModel = project;
+         self.statusForTaskModal = status;
+         self.projectForTaskModal = project;
 
          self.taskForModal.name(task.name);
          self.taskForModal.description(task.description);
+
+         self.taskObjectForEdit = task;
 
          $(taskModalName).modal({
              keyboard: false
@@ -77,12 +81,16 @@
      self.doneAddTask = function () {
          $(taskModalName).modal('hide');
 
-         var status = self.statusForTaskModel;
-         var project = self.projectForTaskModel;
+         var status = self.statusForTaskModal;
+         var project = self.projectForTaskModal;
 
-         var task = BoldRadiusKanban.Model.Task(self.taskForModal.name(), self.taskForModal.description(), project.id, status.id);
-
-         status.tasks.push(task); //This line belongs in a 'model helper'
+         if (self.taskModalInEditMode) {
+             self.taskObjectForEdit.name(self.taskForModal.name());
+             self.taskObjectForEdit.description(self.taskForModal.description());
+         } else {
+             var task = BoldRadiusKanban.Model.Task(self.taskForModal.name(), self.taskForModal.description(), project.id, status.id);
+             status.tasks.push(task); //This line belongs in a 'model helper'
+         }
      };
 
 
