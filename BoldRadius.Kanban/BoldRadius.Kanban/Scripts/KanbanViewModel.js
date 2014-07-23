@@ -107,12 +107,11 @@
 
      self.updateStatus = function(taskId, statusId) {
          var task = self.findTask(taskId);
-         var originalStatus = self.findStatus(task.statusId);
          var newStatus = self.findStatus(statusId);
          task.projectId = newStatus.projectId;
          task.statusId = newStatus.id;
+         $("[taskId=='" + taskId + "']").remove();
          newStatus.tasks.push(task);
-         originalStatus.tasks.remove(task);
      };
 
      self.findTask = function(taskId) {
