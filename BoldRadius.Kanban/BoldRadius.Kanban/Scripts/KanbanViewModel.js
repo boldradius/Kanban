@@ -6,6 +6,7 @@
  function KanbanViewModel(board) {
 
      var taskModalName = '#taskModal';
+     var projectModalName = '#projectModal';
 
      var self = this;
 
@@ -47,6 +48,10 @@
      self.clearObservedTask = function(task) {
          task.name(null);
          task.description(null);
+     };
+
+     self.clearObservedProject = function (project) {
+         project.name(null);
      };
 
      self.taskForModal = BoldRadiusKanban.Model.Task(null, null, 0, 0);
@@ -107,11 +112,11 @@
 
 
 
-     self.addProject = function() {
+     self.addProjectClicked = function() {
 
          self.projectModalInEditMode = false;
 
-         self.clearObservedTask(self.projectForModal);
+         self.clearObservedProject(self.projectForModal);
 
          $(projectModalName).modal({
              keyboard: false
@@ -125,7 +130,8 @@
              self.projectObjectForEdit.name(self.projectForModal.name());
              self.projectObjectForEdit.description(self.projectForModal.description());
          } else {
-             var project = BoldRadiusKanban.Model.Project(self.proejctForModal.name());
+             var project = BoldRadiusKanban.Model.Project(self.projectForModal.name());
+             self.addProjectStatuses(project, self.board.statuses());
              board.projects.push(project); //This line belongs in a 'model helper'
          }
      };
@@ -168,6 +174,12 @@
              }
          }
      };
+
+     self.addProjectStatuses = function(project, statuses) {
+         for (var i = 0; i < statuses.length; i++) {
+             project.statuses.push(status);
+         }
+     }
 
      return self;
 

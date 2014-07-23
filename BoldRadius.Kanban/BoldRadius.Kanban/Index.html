@@ -31,7 +31,7 @@
             <div class="page-header"><h1 class="col-md-offset-1" data-bind="text: 'BoldRadius Kanban'"></h1></div>
         </div>
         <div class="row panel-heading">
-            <div class="col-md-2 text-center"><span>Project</span></div>
+            <div class="col-md-2 text-center"><span>Project</span><div data-bind="click: $root.addProjectClicked" class="col-md-2"><span class="addLink">+Add Project</span></div></div>
             <div class="container col-md-10">
                 <!-- ko foreach: board.statuses -->
                 <div class="col-md-4 text-center">
@@ -70,8 +70,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group-lg">
-                        <label for="description">Name</label>
-                        <input id="description" class="form-control" type="text" placeholder="Name" data-bind="value: taskForModal.name" />
+                        <label for="taskName">Name</label>
+                        <input id="taskName" class="form-control" type="text" placeholder="Name" data-bind="value: taskForModal.name" />
                     </div>
                     <div class="form-group-lg">
                         <label for="description">Description</label>
@@ -96,8 +96,8 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group-lg">
-                        <label for="description">Name</label>
-                        <input id="description" class="form-control" type="text" placeholder="Name" data-bind="value: projectForModal.name" />
+                        <label for="projectName">Name</label>
+                        <input id="projectName" class="form-control" type="text" placeholder="Name" data-bind="value: projectForModal.name" />
                     </div>
                 </div>
                 <div class="modal-footer">
