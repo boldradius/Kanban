@@ -97,15 +97,14 @@
      self.updateStatus = function(taskId, statusId) {
          var task = self.findTask(taskId);
          var status = self.findStatus(statusId);
-         var alertString = "Task Project Id: " + task.projectId + " Status Project Id: " + status.projectId;
-         alert(alertString);
+         
      };
 
      self.findTask = function(taskId) {
          for (var i = 0; i < self.board.projects().length; i++) {
              for (var j = 0; j < self.board.projects()[i].statuses().length; j++) {
                  for (var k = 0; k < self.board.projects()[i].statuses()[j].tasks().length; k++) {
-                     if (self.board.projects()[i].statuses()[j].tasks()[k].client_id == taskId) {
+                     if (self.board.projects()[i].statuses()[j].tasks()[k].id == taskId) {
                          return self.board.projects()[i].statuses()[j].tasks()[k];
                      }
                  }
@@ -116,9 +115,17 @@
      self.findStatus = function (statusId) {
          for (var i = 0; i < self.board.projects().length; i++) {
              for (var j = 0; j < self.board.projects()[i].statuses().length; j++) {
-                 if (self.board.projects()[i].statuses()[j].client_id == statusId) {
+                 if (self.board.projects()[i].statuses()[j].id == statusId) {
                      return self.board.projects()[i].statuses()[j];
                  }
+             }
+         }
+     };
+
+     self.findProject = function(projectId) {
+         for (var i = 0; i < self.board.projects().length; i++) {
+             if (self.board.projects()[i].id == projectId) {
+                 return self.board.projects()[i];
              }
          }
      };
