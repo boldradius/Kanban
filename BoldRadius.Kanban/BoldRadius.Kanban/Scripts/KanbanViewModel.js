@@ -49,6 +49,10 @@
 
 
 
+     self.observeProject = function (thisProject) {
+         thisProject.name = ko.observable(thisProject.name);
+     };
+
      self.clearObservedTask = function(task) {
          task.name(null);
          task.description(null);
@@ -60,6 +64,11 @@
      self.observeTask(self.taskForModal);
      self.taskModalInEditMode = false;
      self.taskObjectForEdit = null;
+
+     self.projectForModal = BoldRadiusKanban.Model.Project(null);
+     self.observeProject(self.projectForModal);
+     self.projectModalInEditMode = false;
+     self.projectObjectForEdit = null;
 
      self.addTask = function(status, project) {
          self.taskModalInEditMode = false;
@@ -107,11 +116,27 @@
 
 
 
-     self.addProject = function(name) {
+     self.addProject = function() {
 
-         var project = BoldRadiusKanban.Model.Project(name);
+         self.projectModalInEditMode = false;
 
-         self.board.projects.push(project);
+         self.clearObservedTask(self.projectForModal);
+
+         $(projectModalName).modal({
+             keyboard: false
+         });
+     };
+
+     self.doneAddProject = function () {
+         $(projectModalName).modal('hide');
+
+         if (self.projectModalInEditMode) {
+             self.projectObjectForEdit.name(self.projectForModal.name());
+             self.projectObjectForEdit.description(self.projectForModal.description());
+         } else {
+             var project = BoldRadiusKanban.Model.Project(self.proejctForModal.name());
+             board.projects.push(project); //This line belongs in a 'model helper'
+         }
      };
 
      self.updateStatus = function(taskId, statusId) {
