@@ -33,11 +33,26 @@
          self.board.statuses.push(status);
      };
 
+     self.observe_task = function(task) {
+         task.name = ko.observable(task.name);
+         task.description = ko.observable(task.description);
+     };
+
+     self.clearObservedTask = function(task) {
+         task.name(null);
+         task.description(null);
+     };
+
+     self.taskForModal = BoldRadiusKanban.Model.Task(null, null, 0, 0);
+     self.observe_task(self.taskForModal);
+
      self.add_task = function(status, project) {
+
+         self.clearObservedTask(self.taskForModal);
 
          //TODO: model popup to get data
 
-         $('#myModal').modal({
+         $('#taskModal').modal({
              keyboard: false
          });
 
@@ -50,7 +65,7 @@
 
          //TODO: model popup to get data
 
-         $('#myModal').modal({
+         $('#taskModal').modal({
              keyboard: false
          });
      };
