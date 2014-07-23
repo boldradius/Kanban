@@ -37,6 +37,10 @@
 
          //TODO: model popup to get data
 
+         $('#myModal').modal({
+             keyboard: false
+         });
+
          var task = BoldRadiusKanban.Model.Task("new task", "new task description", project.id, status.id);
 
          status.tasks.push(task); //This line belongs in a 'model helper'
