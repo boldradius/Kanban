@@ -51,7 +51,7 @@
                             <span data-bind="text:description"></span>
                         </div>
                         <!-- /ko -->
-                        <div data-bind="click: function() {$root.add_task($data, $parents[0]);}" class="col-md-offset-1 col-md-5"><span class="addLink">+Add Task</span></div>
+                        <div data-bind="click: function() {$root.addTask($data, $parents[0]);}" class="col-md-offset-1 col-md-5"><span class="addLink">+Add Task</span></div>
                     </div>
                     <!-- /ko -->
                 </div>
@@ -70,16 +70,16 @@
                 <div class="modal-body">
                     <div class="form-group-lg">
                         <label for="description">Name</label>
-                        <input id="description" class="form-control" type="text" placeholder="Name description" />
+                        <input id="description" class="form-control" type="text" placeholder="Name description" data-bind="value: taskForModal.name" />
                     </div>
                     <div class="form-group-lg">
                         <label for="description">Description</label>
-                        <input id="description" class="form-control" type="text" placeholder="Task description" />
+                        <input id="description" class="form-control" type="text" placeholder="Task description" data-bind="value: taskForModal.description" />
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Done</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: doneAddTask">Done</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

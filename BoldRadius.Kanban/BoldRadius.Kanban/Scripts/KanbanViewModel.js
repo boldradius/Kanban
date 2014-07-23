@@ -5,6 +5,8 @@
 
  function KanbanViewModel(board) {
 
+     var taskModalName = '#taskModal';
+
      var self = this;
 
      self.board = board;
@@ -44,19 +46,30 @@
      };
 
      self.taskForModal = BoldRadiusKanban.Model.Task(null, null, 0, 0);
+     self.statusForTaskModel = null;
+     self.projectForTaskModel = null;
      self.observeTask(self.taskForModal);
 
      self.addTask = function(status, project) {
 
+         self.statusForTaskModel = status;
+         self.projectForTaskModel = project;
          self.clearObservedTask(self.taskForModal);
 
          //TODO: model popup to get data
 
-         $('#taskModal').modal({
+         $(taskModalName).modal({
              keyboard: false
          });
+     };
 
-         var task = BoldRadiusKanban.Model.Task("new task", "new task description", project.id, status.id);
+     self.doneAddTask = function () {
+         $(taskModalName).modal('hide');
+
+         var status = self.statusForTaskModel;
+         var project = self.projectForTaskModel;
+
+         var task = BoldRadiusKanban.Model.Task(self.taskForModal.name(), self.taskForModal.description(), project.client_id, status.client_id);
 
          status.tasks.push(task); //This line belongs in a 'model helper'
      };
@@ -65,7 +78,7 @@
 
          //TODO: model popup to get data
 
-         $('#taskModal').modal({
+         $(taskModalName).modal({
              keyboard: false
          });
      };
