@@ -97,7 +97,7 @@
             $(".sortable-status").sortable({
                 connectWith: ".sortable-status",
                 receive: function (event, ui) {
-                    //viewModel.UpdateStatus(ui.item.attr("task-id"), ui.item.parent().attr("status-id"));
+                    viewModel.updateStatus(ui.item.attr("task-id"), ui.item.parent().attr("status-id"));
                 }
             });
             $(".sortable-status").disableSelection();
