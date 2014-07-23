@@ -18,6 +18,16 @@
                 name: name,
                 tasks: []
             };
+        },
+
+        Task: function(name, description, projectId, statusId) {
+            return {
+                id: null,
+                name: name,
+                description: description,
+                projectId: projectId,
+                statusId: statusId
+            };
         }
     };
 
