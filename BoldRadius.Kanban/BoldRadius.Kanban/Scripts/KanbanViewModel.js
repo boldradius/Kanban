@@ -110,7 +110,7 @@
          var newStatus = self.findStatus(statusId);
          task.projectId = newStatus.projectId;
          task.statusId = newStatus.id;
-         $("[taskId=='" + taskId + "']").remove();
+         $("[task-id='" + taskId + "']").remove();
          newStatus.tasks.push(task);
      };
 

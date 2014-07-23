@@ -90,6 +90,41 @@
     <script src="scripts/kanbanviewmodel.js"></script>
     <script src="scripts/model.js"></script>
     <script>
+
+
+        var board = {};
+        board.statuses =
+        [
+            { id: 1, name: "Ready" },
+            { id: 2, name: "Doing" },
+            { id: 3, name: "Done" }
+        ];
+
+        board.projects = [];
+        var project1 = BoldRadiusKanban.Model.Project("Ideas & Solution");
+        var statusReady = BoldRadiusKanban.Model.Status("Ready");
+        var statusDoing = BoldRadiusKanban.Model.Status("Doing");
+        var statusDone = BoldRadiusKanban.Model.Status("Done");
+        var task1 = BoldRadiusKanban.Model.Task("Create DB tables", "Use EF to generate Code First database", project1.id, 1);
+        var task2 = BoldRadiusKanban.Model.Task("Integration tests", "Create some system-wide integration tests", project1.id, 1);
+        statusReady.tasks.push(task1);
+        statusReady.tasks.push(task2);
+        project1.statuses.push(statusReady);
+        project1.statuses.push(statusDoing);
+        project1.statuses.push(statusDone);
+        board.projects.push(project1);
+        
+        var project2 = BoldRadiusKanban.Model.Project("BoldRadius Kanban Board");
+        var status2Ready = BoldRadiusKanban.Model.Status("Ready");
+        var status2Doing = BoldRadiusKanban.Model.Status("Doing");
+        var task3 = BoldRadiusKanban.Model.Task("Create client-side solution", "Make sure you can open source this code", project2.id, 1);
+        var status2Done = BoldRadiusKanban.Model.Status("Done");
+        status2Ready.tasks.push(task3);
+        project2.statuses.push(status2Ready);
+        project2.statuses.push(status2Doing);
+        project2.statuses.push(status2Done);
+        board.projects.push(project2);
+
         var viewModel = new KanbanViewModel(board);
 
         ko.applyBindings(viewModel);
