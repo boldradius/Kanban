@@ -47,7 +47,7 @@
                     <!-- ko foreach: statuses -->
                     <div class="status sortable-status col-lg-height col-top col-md-4" data-bind="attr: { 'status-id' : client_id }">
                         <!-- ko foreach: tasks -->
-                        <div data-bind="click: function() {$root.edit_task($data, $parents[0]);}" class="col-md-offset-1 col-md-5 well well-sm task">
+                        <div data-bind="attr: { 'task-id' : client_id }, click: function() {$root.edit_task($data, $parents[0]);}" class="col-md-offset-1 col-md-5 well well-sm task">
                             <span data-bind="text:description"></span>
                         </div>
                         <!-- /ko -->
@@ -96,7 +96,8 @@
         $(function () {
             $(".sortable-status").sortable({
                 connectWith: ".sortable-status",
-                update: function(event, ui) {
+                receive: function (event, ui) {
+                    //viewModel.UpdateStatus(ui.item.attr("task-id"), ui.item.parent().attr("status-id"));
                 }
             });
             $(".sortable-status").disableSelection();

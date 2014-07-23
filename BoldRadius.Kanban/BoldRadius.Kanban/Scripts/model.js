@@ -75,6 +75,7 @@ var board = {
                             description: "Project 1 Task 5"
                         },
                         {
+                            client_id: "client_16",
                             description: "Project 1 Task 6"
                         }
                     ]
