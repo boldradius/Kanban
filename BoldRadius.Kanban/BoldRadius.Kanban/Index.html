@@ -21,37 +21,37 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <div class="page-header"><h1 data-bind="text: 'BoldRadius Kanban'"></h1></div>
+            <div class="page-header"><h1 class="col-md-offset-1" data-bind="text: 'BoldRadius Kanban'"></h1></div>
         </div>
         <div class="row">
-            <div class="col-md-3 text-center"><span>Project</span></div>
-            <!-- ko foreach: board.statuses -->
-            <div class="col-md-3 text-center">
-                <span data-bind="text:name"></span>
-            </div>
-            <!-- /ko -->
-        </div>
-        <div data-bind="template: {name:'ProjectTemplate', foreach: board.projects}"></div>
-    </div>
-    
-    <!-- Project Lane Template -->
-    <script type="text/html" id="ProjectTemplate">
-        <div class="row">
-            <div class="col-md-2"><span style="float:right" data-bind="text:name"></span></div>
+            <div class="col-md-2 text-center"><span>Project</span></div>
             <div class="container col-md-10">
-                <!-- ko foreach: statuses -->
-                <div class="col-md-4 well well-lg">
-                    <!-- ko foreach: tasks -->
-                    <div class="col-md-offset-1 col-md-5 well well-sm">
-                        <span data-bind="text:description"></span>
-                    </div>
-                    <!-- /ko -->
-                    <div data-bind="click:add_task"><span class="btn btn-success">Add Task</span></div>
+                <!-- ko foreach: board.statuses -->
+                <div class="col-md-4 text-center">
+                    <span data-bind="text:name"></span>
                 </div>
                 <!-- /ko -->
             </div>
         </div>
-    </script>
+        <div data-bind="foreach: board.projects">
+            <div class="row list-group">
+                <div class="col-md-2"><span style="float:right" data-bind="text:name"></span></div>
+                <div class="container col-md-10">
+                    <!-- ko foreach: statuses -->
+                    <div class="col-md-4">
+                        <!-- ko foreach: tasks -->
+                        <div class="col-md-offset-1 col-md-5 well well-sm">
+                            <span data-bind="text:description"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!--<div data-bind="click:add_task"><span class="btn btn-success">Add Task</span></div>-->
+                    </div>
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <script src="scripts/kanbanviewmodel.js"></script>
     <script src="scripts/model.js"></script>
     <script>
