@@ -12,6 +12,13 @@
 
      self.board = board;
 
+     self.observeTask = function (task) {
+         task.name = ko.observable(task.name);
+         task.description = ko.observable(task.description);
+     };
+
+    
+
      self.board.statuses = ko.observableArray(self.board.statuses);
 
      self.board.projects = ko.observableArray(self.board.projects);
@@ -26,6 +33,11 @@
 
              var status = project.statuses()[j];
 
+             for (var k = 0; k < status.tasks.length; k++) {
+
+                 self.observeTask(status.tasks[k]);
+             }
+
              status.tasks = ko.observableArray(status.tasks);
          }
      }
@@ -36,10 +48,7 @@
          self.board.statuses.push(status);
      };
 
-     self.observeTask = function(task) {
-         task.name = ko.observable(task.name);
-         task.description = ko.observable(task.description);
-     };
+
 
      self.observeProject = function (thisProject) {
          thisProject.name = ko.observable(thisProject.name);
@@ -86,8 +95,8 @@
          self.statusForTaskModal = status;
          self.projectForTaskModal = project;
 
-         self.taskForModal.name(task.name);
-         self.taskForModal.description(task.description);
+         self.taskForModal.name(task.name());
+         self.taskForModal.description(task.description());
 
 
          $(taskModalName).modal({
