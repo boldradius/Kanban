@@ -16,6 +16,10 @@
     <!-- Knockout JS -->
     <script src="scripts/knockout-3.1.0.js"></script>
     
+    <!-- Custom Styles -->
+    <link href="styles/column-sizes.css" rel="stylesheet" />
+    <link href="styles/CustomStyles.css" rel="stylesheet" />
+
     <title></title>
 </head>
 <body>
@@ -23,7 +27,7 @@
         <div class="row">
             <div class="page-header"><h1 class="col-md-offset-1" data-bind="text: 'BoldRadius Kanban'"></h1></div>
         </div>
-        <div class="row">
+        <div class="row panel-heading">
             <div class="col-md-2 text-center"><span>Project</span></div>
             <div class="container col-md-10">
                 <!-- ko foreach: board.statuses -->
@@ -34,11 +38,11 @@
             </div>
         </div>
         <div data-bind="foreach: board.projects">
-            <div class="row list-group">
+            <div class="row project">
                 <div class="col-md-2"><span style="float:right" data-bind="text:name"></span></div>
-                <div class="container col-md-10">
+                <div class="container container-lg-height col-md-10">
                     <!-- ko foreach: statuses -->
-                    <div class="col-md-4">
+                    <div class="status col-lg-height col-top col-md-4">
                         <!-- ko foreach: tasks -->
                         <div class="col-md-offset-1 col-md-5 well well-sm">
                             <span data-bind="text:description"></span>
