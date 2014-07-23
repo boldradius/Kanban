@@ -46,6 +46,15 @@
          status.tasks.push(task); //This line belongs in a 'model helper'
      };
 
+     self.edit_task = function (status, project) {
+
+         //TODO: model popup to get data
+
+         $('#myModal').modal({
+             keyboard: false
+         });
+     };
+
      self.add_project = function(name) {
 
          var project = BoldRadiusKanban.Model.Project(name);

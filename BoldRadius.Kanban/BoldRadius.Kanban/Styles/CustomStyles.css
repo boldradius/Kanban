@@ -1,12 +1,19 @@
 ﻿.project {
     margin: 5px 0px;
-    background-color: #e0ffff;
-    border-top: 1px solid #4169e1;
-    border-bottom: 1px solid #4169e1;
+    background-color: #EEEEEE;
+    border-top: 1px solid #232130;
+    border-bottom: 1px solid #232130;
 }
 
 .status {
     padding-top: 5px;
-    border-right: 1px solid #4169e1;
-    border-left: 1px solid #4169e1;
+    border-right: 1px solid #232130;
+    border-left: 1px solid #232130;
+}
+.addLink {
+    color: #F3902E;
+}
+
+.task:hover{
+    cursor: pointer;
 }

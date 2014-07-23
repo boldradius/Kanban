@@ -39,6 +39,8 @@
     <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\model.js" />
     <Content Include="Styles\bootstrap.min.css" />
+    <Content Include="Styles\column-sizes.css" />
+    <Content Include="Styles\CustomStyles.css" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
