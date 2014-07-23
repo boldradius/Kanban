@@ -51,12 +51,23 @@
      self.observeTask(self.taskForModal);
 
      self.addTask = function(status, project) {
-
+         
          self.statusForTaskModel = status;
          self.projectForTaskModel = project;
+
          self.clearObservedTask(self.taskForModal);
 
-         //TODO: model popup to get data
+         $(taskModalName).modal({
+             keyboard: false
+         });
+     };
+
+     self.editTask = function (task, status, project) {
+         self.statusForTaskModel = status;
+         self.projectForTaskModel = project;
+
+         self.taskForModal.name(task.name);
+         self.taskForModal.description(task.description);
 
          $(taskModalName).modal({
              keyboard: false
@@ -69,19 +80,12 @@
          var status = self.statusForTaskModel;
          var project = self.projectForTaskModel;
 
-         var task = BoldRadiusKanban.Model.Task(self.taskForModal.name(), self.taskForModal.description(), project.client_id, status.client_id);
+         var task = BoldRadiusKanban.Model.Task(self.taskForModal.name(), self.taskForModal.description(), project.id, status.id);
 
          status.tasks.push(task); //This line belongs in a 'model helper'
      };
 
-     self.editTask = function (status, project) {
 
-         //TODO: model popup to get data
-
-         $(taskModalName).modal({
-             keyboard: false
-         });
-     };
 
      self.addProject = function(name) {
 
