@@ -27,13 +27,13 @@
          }
      }
 
-     self.add_status = function(name, sequenceNumber) {
+     self.addStatus = function(name, sequenceNumber) {
          var status = BoldRadiusKanban.Model.Status(name, sequenceNumber);
 
          self.board.statuses.push(status);
      };
 
-     self.observe_task = function(task) {
+     self.observeTask = function(task) {
          task.name = ko.observable(task.name);
          task.description = ko.observable(task.description);
      };
@@ -44,9 +44,9 @@
      };
 
      self.taskForModal = BoldRadiusKanban.Model.Task(null, null, 0, 0);
-     self.observe_task(self.taskForModal);
+     self.observeTask(self.taskForModal);
 
-     self.add_task = function(status, project) {
+     self.addTask = function(status, project) {
 
          self.clearObservedTask(self.taskForModal);
 
@@ -61,7 +61,7 @@
          status.tasks.push(task); //This line belongs in a 'model helper'
      };
 
-     self.edit_task = function (status, project) {
+     self.editTask = function (status, project) {
 
          //TODO: model popup to get data
 
@@ -70,7 +70,7 @@
          });
      };
 
-     self.add_project = function(name) {
+     self.addProject = function(name) {
 
          var project = BoldRadiusKanban.Model.Project(name);
 
