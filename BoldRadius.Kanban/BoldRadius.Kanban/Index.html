@@ -45,13 +45,13 @@
                 <div class="col-md-2"><span style="float:right" data-bind="text:name"></span></div>
                 <div class="container container-lg-height col-md-10">
                     <!-- ko foreach: statuses -->
-                    <div class="status col-lg-height col-top col-md-4" data-bind="attr: {'status-id' : client_id}">
+                    <div class="status sortable-status col-lg-height col-top col-md-4">
                         <!-- ko foreach: tasks -->
-                        <div data-bind="click: function() {$root.editTask($data, $parents[0]);}" class="col-md-offset-1 col-md-5 well well-sm task">
+                        <div data-bind="click: function() {$root.edit_task($data, $parents[0]);}" class="col-md-offset-1 col-md-5 well well-sm task">
                             <span data-bind="text:description"></span>
                         </div>
                         <!-- /ko -->
-                        <div data-bind="click: function() {$root.addTask($data, $parents[0]);}" class="col-md-offset-1 col-md-5"><span class="addLink">+Add Task</span></div>
+                        <div data-bind="click: function() {$root.add_task($data, $parents[0]);}" class="col-md-offset-1 col-md-5"><span class="addLink">+Add Task</span></div>
                     </div>
                     <!-- /ko -->
                 </div>
@@ -94,13 +94,12 @@
         ko.applyBindings(viewModel);
 
         $(function () {
-            $(".status").sortable({
-                connectWith: ".status",
+            $(".sortable-status").sortable({
+                connectWith: ".sortable-status",
                 update: function(event, ui) {
-                    alert(ui.item.prop("class"));
                 }
             });
-            $(".status").disableSelection();
+            $(".sortable-status").disableSelection();
         });
     </script>
 
