@@ -13,6 +13,9 @@
 .addLink {
     color: #F3902E;
 }
+.addLink:hover {
+    cursor: pointer;
+}
 
 .task:hover{
     cursor: pointer;

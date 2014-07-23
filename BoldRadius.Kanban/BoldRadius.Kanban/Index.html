@@ -6,6 +6,8 @@
     
     <!-- JQuery -->
     <script src="scripts/jquery.min.js"></script>
+    <!-- JQuery UI -->
+    <script src="Scripts/jquery-ui-1.11.0/jquery-ui.min.js"></script>
 
     <!-- Twitter Bootstrap -->
     <!-- Latest compiled and minified CSS -->
@@ -19,6 +21,7 @@
     <!-- Custom Styles -->
     <link href="styles/column-sizes.css" rel="stylesheet" />
     <link href="styles/CustomStyles.css" rel="stylesheet" />
+    
 
     <title></title>
 </head>
@@ -89,6 +92,16 @@
         var viewModel = new KanbanViewModel(board);
 
         ko.applyBindings(viewModel);
+
+        $(function () {
+            $(".status").sortable({
+                connectWith: ".status",
+                update: function(event, ui) {
+                    alert(ui.item.prop("class"));
+                }
+            });
+            $(".status").disableSelection();
+        });
     </script>
 
 </body>
