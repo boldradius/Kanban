@@ -45,99 +45,117 @@
 var board = {
     projects: [
         {
-            id: "client_1",
+            id: BoldRadiusKanban.getNextClient(),
             name: "Project 1",
             statuses: [
                 {
-                    id: "client_2",
+                    id: BoldRadiusKanban.getNextClient(),
                     name: "Ready",
-                    projectId: "client_1",
+                    projectId: BoldRadiusKanban.getNextClient(),
                     tasks: [
                         {
-                            id: "client_3",
+                            id: BoldRadiusKanban.getNextClient(),
+                            name: "Name " + BoldRadiusKanban.getNextClient(),
                             description: "Project 1 Task 1",
-                            projectId: "client_1"
+                            statusId: BoldRadiusKanban.getNextClient(),
+                            projectId: BoldRadiusKanban.getNextClient()
                         },
                         {
-                            id: "client_4",
+                            id: BoldRadiusKanban.getNextClient(),
+                            name: "Name " + BoldRadiusKanban.getNextClient(),
                             description: "Project 1 Task 4",
-                            projectId: "client_1"
+                            statusId: BoldRadiusKanban.getNextClient(),
+                            projectId: BoldRadiusKanban.getNextClient()
                         }
                     ]
                 },
                 {
-                    id: "client_5",
+                    id: BoldRadiusKanban.getNextClient(),
                     name: "Doing",
-                    projectId: "client_1",
+                    projectId: BoldRadiusKanban.getNextClient(),
                     tasks: [
                         {
-                            id: "client_6",
+                            id: BoldRadiusKanban.getNextClient(),
+                            name: "Name " + BoldRadiusKanban.getNextClient(),
                             description: "Project 1 Task 2",
-                            projectId: "client_1"
+                            statusId: BoldRadiusKanban.getNextClient(),
+                            projectId: BoldRadiusKanban.getNextClient()
                         },
                         {
-                            id: "client_7",
+                            id: BoldRadiusKanban.getNextClient(),
+                            name: "Name " + BoldRadiusKanban.getNextClient(),
                             description: "Project 1 Task 5",
-                            projectId: "client_1"
+                            statusId: BoldRadiusKanban.getNextClient(),
+                            projectId: BoldRadiusKanban.getNextClient()
                         },
                         {
-                            id: "client_16",
+                            id: BoldRadiusKanban.getNextClient(),
+                            name: "Name " + BoldRadiusKanban.getNextClient(),
                             description: "Project 1 Task 6",
-                            projectId: "client_1"
+                            statusId: BoldRadiusKanban.getNextClient(),
+                            projectId: BoldRadiusKanban.getNextClient()
                         }
                     ]
                 },
                 {
-                    id: "client_8",
+                    id: BoldRadiusKanban.getNextClient(),
                     name: "Done",
-                    projectId: "client_1",
+                    projectId: BoldRadiusKanban.getNextClient(),
                     tasks: [
                         {
-                            id: "client_10",
+                            id: BoldRadiusKanban.getNextClient(),
+                            name: "Name " + BoldRadiusKanban.getNextClient(),
                             description: "Project 1 Task 3",
-                            projectId: "client_1"
+                            statusId: BoldRadiusKanban.getNextClient(),
+                            projectId: BoldRadiusKanban.getNextClient()
                         }
                     ]
                 }
             ]
         },
         {
-            id: "client_9",
-            name: "Project 2",
+            id: BoldRadiusKanban.getNextClient(),
+            name: BoldRadiusKanban.getNextClient(),
             statuses: [
                 {
-                    id: "client_11",
+                    id: BoldRadiusKanban.getNextClient(),
                     name: "Ready",
-                    projectId: "client_9",
+                    projectId: BoldRadiusKanban.getNextClient(),
                     tasks: [
                         {
-                            id: "client_12",
+                            id: BoldRadiusKanban.getNextClient(),
+                            name: "Name " + BoldRadiusKanban.getNextClient(),
                             description: "Project 2 Task 1",
-                            projectId: "client_9"
+                            statusId: BoldRadiusKanban.getNextClient(),
+                            projectId: BoldRadiusKanban.getNextClient()
                         }
                     ]
                 },
                 {
-                    id: "client_13",
+                    id: BoldRadiusKanban.getNextClient(),
                     name: "Doing",
-                    projectId: "client_9",
+                    projectId: BoldRadiusKanban.getNextClient(),
                     tasks: [
                         {
-                            id: "client_14",
+                            id: BoldRadiusKanban.getNextClient(),
+                            name: "Name " + BoldRadiusKanban.getNextClient(),
                             description: "Project 2 Task 2",
-                            projectId: "client_9"
+                            statusId: BoldRadiusKanban.getNextClient(),
+                            projectId: BoldRadiusKanban.getNextClient()
                         }
                     ]
                 },
                 {
-                    id: "client_15",
+                    id: BoldRadiusKanban.getNextClient(),
                     name: "Done",
-                    projectId: "client_9",
+                    projectId: BoldRadiusKanban.getNextClient(),
                     tasks: [
                         {
-                            id: "client_16",
+                            id: BoldRadiusKanban.getNextClient(),
+                            name: "Name " + BoldRadiusKanban.getNextClient(),
                             description: "Project 2 Task 3",
-                            projectId: "client_9"
+                            statusId: BoldRadiusKanban.getNextClient(),
+                            projectId: BoldRadiusKanban.getNextClient()
                         }
                     ]
                 }
@@ -145,8 +163,8 @@ var board = {
         }
     ],
     statuses: [
-        { id: "client_17", name: "Ready" },
-        { id: "client_18", name: "Doing" },
-        { id: "client_19", name: "Done" }
+        { id: BoldRadiusKanban.getNextClient(), name: "Ready" },
+        { id: BoldRadiusKanban.getNextClient(), name: "Doing" },
+        { id: BoldRadiusKanban.getNextClient(), name: "Done" }
     ]
 };

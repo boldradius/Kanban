@@ -53,7 +53,8 @@
      self.taskObjectForEdit = null;
 
      self.addTask = function(status, project) {
-         
+         self.taskModalInEditMode = false;
+
          self.statusForTaskModal = status;
          self.projectForTaskModal = project;
 
@@ -65,13 +66,15 @@
      };
 
      self.editTask = function (task, status, project) {
+         self.taskModalInEditMode = true;
+         self.taskObjectForEdit = task;
+
          self.statusForTaskModal = status;
          self.projectForTaskModal = project;
 
          self.taskForModal.name(task.name);
          self.taskForModal.description(task.description);
 
-         self.taskObjectForEdit = task;
 
          $(taskModalName).modal({
              keyboard: false
