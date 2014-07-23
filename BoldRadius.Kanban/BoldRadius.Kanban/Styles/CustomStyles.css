@@ -1,0 +1,12 @@
+﻿.project {
+    margin: 5px 0px;
+    background-color: #e0ffff;
+    border-top: 1px solid #4169e1;
+    border-bottom: 1px solid #4169e1;
+}
+
+.status {
+    padding-top: 5px;
+    border-right: 1px solid #4169e1;
+    border-left: 1px solid #4169e1;
+}
