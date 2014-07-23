@@ -37,7 +37,7 @@
     <!-- Project Lane Template -->
     <script type="text/html" id="ProjectTemplate">
         <div class="row">
-        <div class="col-md-2"><span style="float:right" data-bind="text:name"></span></div>
+            <div class="col-md-2"><span style="float:right" data-bind="text:name"></span></div>
             <div class="container col-md-10">
                 <!-- ko foreach: statuses -->
                 <div class="col-md-4 well well-lg">
@@ -46,6 +46,7 @@
                         <span data-bind="text:description"></span>
                     </div>
                     <!-- /ko -->
+                    <div data-bind="click:add_task"><span class="btn btn-success">Add Task</span></div>
                 </div>
                 <!-- /ko -->
             </div>
