@@ -96,8 +96,12 @@
 
      self.updateStatus = function(taskId, statusId) {
          var task = self.findTask(taskId);
-         var status = self.findStatus(statusId);
-         
+         var originalStatus = self.findStatus(task.statusId);
+         var newStatus = self.findStatus(statusId);
+         task.projectId = newStatus.projectId;
+         task.statusId = newStatus.id;
+         newStatus.tasks.push(task);
+         originalStatus.tasks.remove(task);
      };
 
      self.findTask = function(taskId) {
