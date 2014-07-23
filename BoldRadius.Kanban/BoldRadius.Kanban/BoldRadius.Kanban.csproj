@@ -37,6 +37,7 @@
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\KanbanViewModel.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
+    <Content Include="Scripts\model.js" />
     <Content Include="Styles\bootstrap.min.css" />
   </ItemGroup>
   <ItemGroup />
