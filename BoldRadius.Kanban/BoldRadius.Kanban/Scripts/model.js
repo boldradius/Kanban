@@ -1,11 +1,18 @@
 ﻿
 (function (BoldRadiusKanban) {
 
+    BoldRadiusKanban.currentClientId = 0;
+
+    BoldRadiusKanban.getNextClient = function() {
+
+        return "client_" + ++BoldRadiusKanban.currentClientId;
+    };
+
     BoldRadiusKanban.Model = {
         Status: function(name, sequencyNumber) {
 
             return {
-                id: null,
+                id: BoldRadiusKanban.getNextClient(),
                 name: name,
                 sequenceNumber: sequencyNumber
             };
@@ -14,7 +21,7 @@
         Project: function(name) {
 
             return {
-                id: null,
+                id: BoldRadiusKanban.getNextClient(),
                 name: name,
                 tasks: []
             };
@@ -22,7 +29,7 @@
 
         Task: function(name, description, projectId, statusId) {
             return {
-                id: null,
+                id: BoldRadiusKanban.getNextClient(),
                 name: name,
                 description: description,
                 projectId: projectId,
