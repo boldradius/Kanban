@@ -19,9 +19,17 @@
     <title></title>
 </head>
 <body>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12"><span data-bind="text: 'BoldRadius Kanban'"></span></div>
+            <div class="page-header"><h1 data-bind="text: 'BoldRadius Kanban'"></h1></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 text-center"><span>Project</span></div>
+            <!-- ko foreach: board.statuses -->
+            <div class="col-md-3 text-center">
+                <span data-bind="text:name"></span>
+            </div>
+            <!-- /ko -->
         </div>
         <div data-bind="template: {name:'ProjectTemplate', foreach: board.projects}"></div>
     </div>
@@ -29,16 +37,18 @@
     <!-- Project Lane Template -->
     <script type="text/html" id="ProjectTemplate">
         <div class="row">
-            <div class="col-md-3"><span data-bind="text:name"></span></div>
-            <!-- ko foreach: statuses -->
-            <div class="col-md-3">
-                <!-- ko foreach: tasks -->
-                <div class="well well-sm">
-                    <span data-bind="text:description"></span>
+        <div class="col-md-2"><span style="float:right" data-bind="text:name"></span></div>
+            <div class="container col-md-10">
+                <!-- ko foreach: statuses -->
+                <div class="col-md-4 well well-lg">
+                    <!-- ko foreach: tasks -->
+                    <div class="col-md-offset-1 col-md-5 well well-sm">
+                        <span data-bind="text:description"></span>
+                    </div>
+                    <!-- /ko -->
                 </div>
                 <!-- /ko -->
             </div>
-            <!-- /ko -->
         </div>
     </script>
 

@@ -23,6 +23,12 @@ var KanbanViewModel = {
                             tasks: [
                                 {
                                     description: "Project 1 Task 2"
+                                },
+                                {
+                                    description: "Project 1 Task 5"
+                                },
+                                {
+                                    description: "Project 1 Task 6"
                                 }
                             ]
                         },
@@ -65,7 +71,12 @@ var KanbanViewModel = {
                         }
                     ]
                 },
-            ]
+        ],
+        statuses: [
+            { name: "Ready"},
+            { name: "Doing" },
+            { name: "Done" }
+        ]
     }
 };
 
