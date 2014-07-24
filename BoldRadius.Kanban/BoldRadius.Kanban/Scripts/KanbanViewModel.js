@@ -115,6 +115,7 @@
              self.taskObjectForEdit.description(self.taskForModal.description());
          } else {
              var task = BoldRadiusKanban.Model.Task(self.taskForModal.name(), self.taskForModal.description(), project.id, status.id);
+             self.observeTask(task);
              status.tasks.push(task); //This line belongs in a 'model helper'
          }
      };
@@ -186,6 +187,11 @@
 
      self.addProjectStatuses = function(project, statuses) {
          for (var i = 0; i < statuses.length; i++) {
+
+             var status = BoldRadiusKanban.Model.Status(statuses[i].name, i);
+
+             status.tasks = ko.observableArray(status.tasks);
+
              project.statuses.push(status);
          }
      }
