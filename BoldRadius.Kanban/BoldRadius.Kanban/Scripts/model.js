@@ -19,22 +19,33 @@
             };
         },
 
-        Project: function(name) {
+        Project: function(name, sequencyNumber) {
 
             return {
                 id: BoldRadiusKanban.getNextClient(),
                 name: name,
+                sequenceNumber: sequencyNumber,
                 statuses:[]
             };
         },
 
-        Task: function(name, description, projectId, statusId) {
+        Task: function(name, description, projectId, statusId, sequencyNumber) {
             return {
                 id: BoldRadiusKanban.getNextClient(),
                 name: name,
                 description: description,
                 projectId: projectId,
-                statusId: statusId
+                statusId: statusId,
+                sequenceNumber: sequencyNumber,
+                userId: 0
+            };
+        },
+
+        User: function(displayName, colourHex) {
+            return {
+                id: BoldRadiusKanban.getNextClient(),
+                displayName: displayName,
+                colourHex: colourHex
             };
         }
     };

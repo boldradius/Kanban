@@ -16,6 +16,7 @@
          task.name = ko.observable(task.name);
          task.description = ko.observable(task.description);
          task.id = ko.observable(task.id);
+         task.userId = ko.observable(task.userId);
      };
 
     
@@ -53,16 +54,18 @@
 
      self.observeProject = function (thisProject) {
          thisProject.name = ko.observable(thisProject.name);
+         thisProject.statuses = ko.observableArray(thisProject.statuses);
      };
 
      self.clearObservedTask = function(task) {
          task.name(null);
          task.description(null);
          task.id(null);
+         task.userId(null);
      };
 
-     self.clearObservedProject = function (project) {
-         project.name(null);
+     self.clearObservedProject = function (clearProject) {
+         clearProject.name(null);
      };
 
      
@@ -101,6 +104,7 @@
          self.taskForModal.name(task.name());
          self.taskForModal.description(task.description());
          self.taskForModal.id(task.id());
+         self.taskForModal.userId(task.userId());
 
 
          $(taskModalName).modal({
@@ -117,6 +121,7 @@
          if (self.taskModalInEditMode()) {
              self.taskObjectForEdit.name(self.taskForModal.name());
              self.taskObjectForEdit.description(self.taskForModal.description());
+             self.taskObjectForEdit.userId(self.taskForModal.userId());
          } else {
              var task = BoldRadiusKanban.Model.Task(self.taskForModal.name(), self.taskForModal.description(), project.id, status.id);
              self.observeTask(task);
@@ -146,15 +151,40 @@
          } else {
              var project = BoldRadiusKanban.Model.Project(self.projectForModal.name());
              self.addProjectStatuses(project, self.board.statuses());
+             project.sequenceNumber = self.board.projects()[self.board.projects().length-1].sequenceNumber + 1;
+             self.observeProject(project);
              board.projects.push(project); //This line belongs in a 'model helper'
          }
      };
 
-     self.updateStatus = function(taskId, statusId) {
+     self.updateProject = function (projectId, sequenceNumber) {
+         var projectToUpdate = self.findProject(projectId);
+         if (projectToUpdate.sequenceNumber < sequenceNumber) {
+             for (var i = 0; i < self.board.projects().length; i++) {
+                 if (self.board.projects()[i].sequenceNumber <= sequenceNumber) {
+                     --self.board.projects()[i].sequenceNumber;
+                 }
+             }
+         } else {
+             for (var i = 0; i < self.board.projects().length; i++) {
+                 if (self.board.projects()[i].sequenceNumber >= sequenceNumber) {
+                     ++self.board.projects()[i].sequenceNumber;
+                 }
+             }
+         }
+         
+         
+         projectToUpdate.sequenceNumber = sequenceNumber;
+         alert(projectToUpdate.sequenceNumber);
+         self.board.projects.sort(function (left, right) { return left.sequenceNumber == right.sequenceNumber ? 0 : (left.sequenceNumber < right.sequenceNumber ? -1 : 1) });
+     };
+
+     self.updateTask = function(taskId, statusId, sequenceNumber) {
          var task = self.findTask(taskId);
          var newStatus = self.findStatus(statusId);
          task.projectId = newStatus.projectId;
          task.statusId = newStatus.id;
+         task.sequenceNumber = sequenceNumber;
          $("[task-id='" + taskId + "']").remove();
          newStatus.tasks.push(task);
      };
@@ -212,6 +242,30 @@
              }
      }
          //tell server to archive task
+     };
+
+     self.updateSortable = function() {
+         $(".sortable-status").sortable({
+             connectWith: ".sortable-status",
+             receive: function(event, ui) {
+                 viewModel.updateTask(ui.item.attr("task-id"), ui.item.parent().attr("status-id"));
+             }
+         });
+         $(".sortable-status").disableSelection();
+         $(".sortable-project").sortable({
+             connectWith: ".sortable-project",
+             receive: function (event, ui) {
+                 var followerSequence = ui.item.next().attr("sequence-number");
+                 var newSequence;
+                 if (followerSequence != null) {
+                     newSequence = parseInt(followerSequence) + 1;
+                 } else {
+                     newSequence = viewModel.board.projects().length;
+                 }
+                 viewModel.updateProject(ui.item.attr("project-id"), newSequence);
+             }
+         });
+         $(".sortable-project").disableSelection();
      };
 
      return self;

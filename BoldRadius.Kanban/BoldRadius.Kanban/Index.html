@@ -27,8 +27,13 @@
 </head>
 <body>
     <div class="container-fluid">
-        <div class="row">
-            <div class="page-header"><h1 class="col-md-offset-1" data-bind="text: 'BoldRadius Kanban'"></h1></div>
+        <div class="row page-header">
+            <div class="col-md-offset-1 col-md-7"><h1 data-bind="text: 'BoldRadius Kanban'"></h1></div>
+            <div data-bind="foreach:board.users" class="col-md-3 well well-sm container">
+                <div class="col-sm-3 col-sm-offset-1 btn" data-bind="attr: {'style': 'margin-top: 2px; background-color:' + colourHex}">
+                    <div style="white-space: normal"data-bind="text: displayName"></div>
+                </div>
+            </div>
         </div>
         <div class="row panel-heading">
             <div class="col-md-2 text-center">
@@ -43,9 +48,10 @@
                 <!-- /ko -->
             </div>
         </div>
-        <div data-bind="foreach: board.projects" class="sortable-project">
-            <div class="row project">
-                <div class="col-md-2 text-center">
+        <!-- ko foreach:{data: board.projects, afterRender: updateSortable}-->
+        <div class="sortable-project">
+            <div class="row project" data-bind="attr: { 'project-id' : id, 'sequence-number': sequenceNumber}">
+                <div class=" col-md-2 text-center">
                     <h3 data-bind="text:name"></h3>
                     <div data-bind="click: function() {$root.addTask($data.statuses()[0], $data);}" class="btn btn-primary">+Add Task</div>
                 </div>
@@ -63,6 +69,7 @@
                 </div>
             </div>
         </div>
+        <!-- /ko -->
     </div>
     
     
@@ -81,6 +88,10 @@
                     <div class="form-group-lg">
                         <label for="description">Description</label>
                         <input id="description" class="form-control" type="text" placeholder="Description" data-bind="value: taskForModal.description" />
+                    </div>
+                    <div class="form-group-lg">
+                        <label for="taskUser">User</label>
+                        <select class="form-control" data-bind="options: board.users, optionsText: 'displayName', optionsValue: 'id', value: taskForModal.userId"></select>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -130,13 +141,25 @@
             { id: 3, name: "Done" }
         ];
 
+        board.users =
+        [
+            { id: 1, displayName: "Joseph P", colourHex: "#99CCFF" },
+            { id: 2, displayName: "Etienne Morin", colourHex: "#CC9966" },
+            { id: 3, displayName: "Dan", colourHex: "#CCCCFF" },
+            { id: 4, displayName: "Long", colourHex: "#FFCC99" },
+            { id: 5, displayName: "Caroline", colourHex: "#FFCCFF" },
+            { id: 6, displayName: "Fabian", colourHex: "#FFFF99" }
+        ];
+
         board.projects = [];
-        var project1 = BoldRadiusKanban.Model.Project("Ideas & Solution");
-        var statusReady = BoldRadiusKanban.Model.Status("Ready");
-        var statusDoing = BoldRadiusKanban.Model.Status("Doing");
-        var statusDone = BoldRadiusKanban.Model.Status("Done");
-        var task1 = BoldRadiusKanban.Model.Task("Create DB tables", "Use EF to generate Code First database", project1.id, 1);
-        var task2 = BoldRadiusKanban.Model.Task("Integration tests", "Create some system-wide integration tests", project1.id, 1);
+        var project1 = BoldRadiusKanban.Model.Project("Ideas & Solution", 0);
+        var statusReady = BoldRadiusKanban.Model.Status("Ready", 1);
+        var statusDoing = BoldRadiusKanban.Model.Status("Doing", 2);
+        var statusDone = BoldRadiusKanban.Model.Status("Done", 3);
+        var task1 = BoldRadiusKanban.Model.Task("Create DB tables", "Use EF to generate Code First database", project1.id, 1, 2);
+        task1.userId = 1;
+        var task2 = BoldRadiusKanban.Model.Task("Integration tests", "Create some system-wide integration tests", project1.id, 1, 1);
+        task2.userId = 2;
         statusReady.tasks.push(task1);
         statusReady.tasks.push(task2);
         project1.statuses.push(statusReady);
@@ -144,11 +167,12 @@
         project1.statuses.push(statusDone);
         board.projects.push(project1);
         
-        var project2 = BoldRadiusKanban.Model.Project("BoldRadius Kanban Board");
-        var status2Ready = BoldRadiusKanban.Model.Status("Ready");
-        var status2Doing = BoldRadiusKanban.Model.Status("Doing");
-        var task3 = BoldRadiusKanban.Model.Task("Create client-side solution", "Make sure you can open source this code", project2.id, 1);
-        var status2Done = BoldRadiusKanban.Model.Status("Done");
+        var project2 = BoldRadiusKanban.Model.Project("BoldRadius Kanban Board", 1);
+        var status2Ready = BoldRadiusKanban.Model.Status("Ready", 1);
+        var status2Doing = BoldRadiusKanban.Model.Status("Doing", 2);
+        var task3 = BoldRadiusKanban.Model.Task("Create client-side solution", "Make sure you can open source this code", project2.id, 1, 1);
+        task3.userId = 3;
+        var status2Done = BoldRadiusKanban.Model.Status("Done", 3);
         status2Ready.tasks.push(task3);
         project2.statuses.push(status2Ready);
         project2.statuses.push(status2Doing);
@@ -158,21 +182,6 @@
         var viewModel = new KanbanViewModel(board);
 
         ko.applyBindings(viewModel);
-
-        $(function () {
-            $(".sortable-status").sortable({
-                connectWith: ".sortable-status",
-                receive: function (event, ui) {
-                    viewModel.updateStatus(ui.item.attr("task-id"), ui.item.parent().attr("status-id"));
-                }
-            });
-            $(".sortable-status").disableSelection();
-            $(".sortable-project").sortable({
-                connectWith: ".sortable-project",
-                
-            });
-            $(".sortable-project").disableSelection();
-        });
     </script>
 
 </body>
