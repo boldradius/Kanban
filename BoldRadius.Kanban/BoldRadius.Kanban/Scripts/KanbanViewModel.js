@@ -191,6 +191,11 @@
 
      self.addProjectStatuses = function(project, statuses) {
          for (var i = 0; i < statuses.length; i++) {
+
+             var status = BoldRadiusKanban.Model.Status(statuses[i].name, i);
+
+             status.tasks = ko.observableArray(status.tasks);
+
              project.statuses.push(status);
          }
      };
@@ -205,7 +210,7 @@
                      }
                  }
              }
-         }
+     }
          //tell server to archive task
      };
 
