@@ -15,6 +15,7 @@
      self.observeTask = function (task) {
          task.name = ko.observable(task.name);
          task.description = ko.observable(task.description);
+         task.id = ko.observable(task.id);
      };
 
     
@@ -57,17 +58,19 @@
      self.clearObservedTask = function(task) {
          task.name(null);
          task.description(null);
+         task.id(null);
      };
 
      self.clearObservedProject = function (project) {
          project.name(null);
      };
 
+     
      self.taskForModal = BoldRadiusKanban.Model.Task(null, null, 0, 0);
      self.statusForTaskModal = null;
      self.projectForTaskModal = null;
      self.observeTask(self.taskForModal);
-     self.taskModalInEditMode = false;
+     self.taskModalInEditMode = ko.observable(false);
      self.taskObjectForEdit = null;
 
      self.projectForModal = BoldRadiusKanban.Model.Project(null);
@@ -76,7 +79,7 @@
      self.projectObjectForEdit = null;
 
      self.addTask = function(status, project) {
-         self.taskModalInEditMode = false;
+         self.taskModalInEditMode(false);
 
          self.statusForTaskModal = status;
          self.projectForTaskModal = project;
@@ -89,7 +92,7 @@
      };
 
      self.editTask = function (task, status, project) {
-         self.taskModalInEditMode = true;
+         self.taskModalInEditMode(true);
          self.taskObjectForEdit = task;
 
          self.statusForTaskModal = status;
@@ -97,6 +100,7 @@
 
          self.taskForModal.name(task.name());
          self.taskForModal.description(task.description());
+         self.taskForModal.id(task.id());
 
 
          $(taskModalName).modal({
@@ -110,11 +114,12 @@
          var status = self.statusForTaskModal;
          var project = self.projectForTaskModal;
 
-         if (self.taskModalInEditMode) {
+         if (self.taskModalInEditMode()) {
              self.taskObjectForEdit.name(self.taskForModal.name());
              self.taskObjectForEdit.description(self.taskForModal.description());
          } else {
              var task = BoldRadiusKanban.Model.Task(self.taskForModal.name(), self.taskForModal.description(), project.id, status.id);
+             self.observeTask(task);
              status.tasks.push(task); //This line belongs in a 'model helper'
          }
      };
@@ -158,7 +163,7 @@
          for (var i = 0; i < self.board.projects().length; i++) {
              for (var j = 0; j < self.board.projects()[i].statuses().length; j++) {
                  for (var k = 0; k < self.board.projects()[i].statuses()[j].tasks().length; k++) {
-                     if (self.board.projects()[i].statuses()[j].tasks()[k].id == taskId) {
+                     if (self.board.projects()[i].statuses()[j].tasks()[k].id() == taskId) {
                          return self.board.projects()[i].statuses()[j].tasks()[k];
                      }
                  }
@@ -188,7 +193,21 @@
          for (var i = 0; i < statuses.length; i++) {
              project.statuses.push(status);
          }
-     }
+     };
+
+     self.archiveTask = function (mytastk) {
+         $(taskModalName).modal('hide');
+         for (var i = 0; i < self.board.projects().length; i++) {
+             for (var j = 0; j < self.board.projects()[i].statuses().length; j++) {
+                 for (var k = 0; k < self.board.projects()[i].statuses()[j].tasks().length; k++) {
+                     if (self.board.projects()[i].statuses()[j].tasks()[k].id() == mytastk()) {
+                         self.board.projects()[i].statuses()[j].tasks.remove(self.board.projects()[i].statuses()[j].tasks()[k]);
+                     }
+                 }
+             }
+         }
+         //tell server to archive task
+     };
 
      return self;
 
