@@ -30,7 +30,7 @@
         $(".sortable-project").sortable({
             connectWith: ".sortable-project",
             receive: function(event, ui) {
-                var projects = ui.item.parent().children();
+                var projects = $(".sortable-project").children();
                 var newIndex;
                 for (var i = 0; i < projects.length; i++) {
                     if($(projects[i]).attr("project-id") == ui.item.attr("project-id")) {

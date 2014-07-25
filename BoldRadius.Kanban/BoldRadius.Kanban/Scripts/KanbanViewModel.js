@@ -58,6 +58,7 @@
      self.observeProject = function (thisProject) {
          thisProject.name = ko.observable(thisProject.name);
          thisProject.statuses = ko.observableArray(thisProject.statuses);
+         thisProject.sequenceNumber = ko.observable(thisProject.sequenceNumber);
      };
 
      self.clearObservedTask = function(task) {
@@ -70,6 +71,8 @@
 
      self.clearObservedProject = function (clearProject) {
          clearProject.name(null);
+         clearProject.statuses(null);
+         clearProject.sequenceNumber(null);
      };
 
      
@@ -161,7 +164,7 @@
          } else {
              var project = BoldRadiusKanban.Model.Project(self.projectForModal.name());
              self.addProjectStatuses(project, self.board.statuses());
-             project.sequenceNumber = self.board.projects()[self.board.projects().length-1].sequenceNumber + 1;
+             project.sequenceNumber = self.board.projects()[self.board.projects().length-1].sequenceNumber() + 1;
              self.observeProject(project);
              board.projects.push(project); //This line belongs in a 'model helper'
          }
