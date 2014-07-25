@@ -1,5 +1,6 @@
 ﻿/// <reference path="model.js" />
 /// <reference path="KanbanSortingService.js" />
+/// <reference path="KanbanUtilities.js" />
 /// <reference path="knockout-3.1.0.js" />
 
 
@@ -84,7 +85,7 @@
      self.projectObjectForEdit = null;
 
 
-     self.addTask = function (status, project) {
+     self.addTaskClicked = function (status, project) {
          self.taskModalInEditMode(false);
 
          self.statusForTaskModal = status;
@@ -97,7 +98,7 @@
          });
      };
 
-     self.editTask = function (task, status, project) {
+     self.editTaskClicked = function (task, status, project) {
          self.taskModalInEditMode(true);
          self.taskObjectForEdit = task;
 
@@ -116,13 +117,13 @@
          });
      };
 
-     self.doneAddTask = function () {
+     self.doneAddEditTask = function () {
          $(taskModalName).modal('hide');
 
          var status = self.statusForTaskModal;
          var project = self.projectForTaskModal;
 
-         var user = self.findUser(self.taskForModal.userId());
+         var user = Utilities.findUser(self.taskForModal.userId());
 
          if (self.taskModalInEditMode()) {
              self.taskObjectForEdit.name(self.taskForModal.name());
@@ -168,43 +169,7 @@
 
      
 
-     self.findTask = function(taskId) {
-         for (var i = 0; i < self.board.projects().length; i++) {
-             for (var j = 0; j < self.board.projects()[i].statuses().length; j++) {
-                 for (var k = 0; k < self.board.projects()[i].statuses()[j].tasks().length; k++) {
-                     if (self.board.projects()[i].statuses()[j].tasks()[k].id() == taskId) {
-                         return self.board.projects()[i].statuses()[j].tasks()[k];
-                     }
-                 }
-             }
-         }
-     };
-
-     self.findStatus = function (statusId) {
-         for (var i = 0; i < self.board.projects().length; i++) {
-             for (var j = 0; j < self.board.projects()[i].statuses().length; j++) {
-                 if (self.board.projects()[i].statuses()[j].id == statusId) {
-                     return self.board.projects()[i].statuses()[j];
-                 }
-             }
-         }
-     };
-
-     self.findProject = function(projectId) {
-         for (var i = 0; i < self.board.projects().length; i++) {
-             if (self.board.projects()[i].id == projectId) {
-                 return self.board.projects()[i];
-             }
-         }
-     };
-
-     self.findUser = function(userId) {
-         for (var i = 0; i < self.board.users.length; i++) {
-             if (self.board.users[i].id == userId) {
-                 return self.board.users[i];
-             }
-         }
-     };
+     
 
      self.addProjectStatuses = function(project, statuses) {
          for (var i = 0; i < statuses.length; i++) {
@@ -227,7 +192,7 @@
                      }
                  }
              }
-     }
+         }
          //tell server to archive task
      };
 

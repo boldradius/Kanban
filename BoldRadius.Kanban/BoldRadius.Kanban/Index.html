@@ -53,13 +53,13 @@
             <div class="row project" data-bind="attr: { 'project-id' : id, 'sequence-number': sequenceNumber}">
                 <div class=" col-md-2 text-center" style="min-height: 100px">
                     <h3 data-bind="text:name"></h3>
-                    <div data-bind="click: function() {$root.addTask($data.statuses()[0], $data);}" class="btn btn-primary">+Add Task</div>
+                    <div data-bind="click: function() {$root.addTaskClicked($data.statuses()[0], $data);}" class="btn btn-primary">+Add Task</div>
                 </div>
                 <div class="container container-lg-height col-md-10">
                     <!-- ko foreach: statuses -->
                     <div class="status sortable-status col-lg-height col-top" style="height: 100px" data-bind="attr: { 'status-id' : id }, css: colsize">
                         <!-- ko foreach: tasks -->
-                        <div data-bind="attr: { 'task-id' : id, 'sequence-number': sequenceNumber, 'style': 'background-color:' + userColour() }, click: function() {$root.editTask($data, $parents[0], $parents[1]);}" class="col-md-offset-1 col-md-5 well well-sm task">
+                        <div data-bind="attr: { 'task-id' : id, 'sequence-number': sequenceNumber, 'style': 'background-color:' + userColour() }, click: function() {$root.editTaskClicked($data, $parents[0], $parents[1]);}" class="col-md-offset-1 col-md-5 well well-sm task">
                             <span data-bind="text:name"></span><br />
                             <span data-bind="text:description" class="small"></span>
                         </div>
@@ -99,7 +99,7 @@
                         <button type="button" class="btn btn-danger" data-bind="click: function() {$root.archiveTask(taskForModal.id)}">Archive</button>
                     <!-- /ko -->
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bind="click: doneAddTask">Done</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: doneAddEditTask">Done</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -130,6 +130,7 @@
 
     <script src="scripts/kanbanviewmodel.js"></script>
     <script src="scripts/model.js"></script>
+    <script src="scripts/KanbanUtilities.js"></script>
     <script src="scripts/KanbanSortingService.js"></script>
     <script>
 

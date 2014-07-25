@@ -10,13 +10,13 @@
     };
 
     SortingService.updateTask = function(task, statusId, newIndex) {
-        var oldStatus = viewModel.findStatus(task.statusId);
+        var oldStatus = Utilities.findStatus(task.statusId);
         oldStatus.tasks.remove(task);
         for (var i = 0; i < oldStatus.tasks().length; i++) {
             oldStatus.tasks()[i].sequenceNumber(i);
         }
         
-        var newStatus = viewModel.findStatus(statusId);
+        var newStatus = Utilities.findStatus(statusId);
         task.projectId = newStatus.projectId;
         task.statusId = newStatus.id;
         task.sequenceNumber(newIndex);
@@ -37,7 +37,7 @@
                         newIndex = i;
                     }
                 }
-                var koTask = viewModel.findTask(ui.item.attr("task-id"));
+                var koTask = Utilities.findTask(ui.item.attr("task-id"));
                 var newParentId = ui.item.parent().attr("status-id");
                 $(ui.item).remove();
                 SortingService.updateTask(koTask, newParentId, newIndex);
@@ -54,7 +54,7 @@
                         newIndex = i;
                     }
                 }
-                var koProject = viewModel.findProject(ui.item.attr("project-id"));
+                var koProject = Utilities.findProject(ui.item.attr("project-id"));
                 $(ui.item).remove();
                 SortingService.updateProject(koProject, newIndex);
             }
