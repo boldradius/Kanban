@@ -30,6 +30,7 @@
      for (var i = 0; i < self.board.projects().length; i++) {
 
          var project = self.board.projects()[i];
+         project.sequenceNumber = ko.observable(project.sequenceNumber);
 
          project.statuses = ko.observableArray(project.statuses);
 
@@ -231,7 +232,7 @@
          //tell server to archive task
      };
 
-     self.updateSortable = BoldRadiusKanban.SortingService.UpdateSortable;
+     self.updateSortable = SortingService.UpdateSortable;
 
      return self;
 

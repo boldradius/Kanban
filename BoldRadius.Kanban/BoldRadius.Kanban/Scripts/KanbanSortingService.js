@@ -1,67 +1,48 @@
-﻿(function (BoldRadiusKanban) {
+﻿(function (SortingService) {
 
-    (function(SortingService) {
-
-        SortingService = {
-            UpdateProject : function (projectId, sequenceNumber)
-        {
-            var projectToUpdate = self.findProject(projectId);
-            if (projectToUpdate.sequenceNumber < sequenceNumber) {
-                for (var i = 0; i < self.board.projects().length; i++) {
-                    if (self.board.projects()[i].sequenceNumber <= sequenceNumber) {
-                        --self.board.projects()[i].sequenceNumber;
-                    }
-                }
-            } else {
-                for (var i = 0; i < self.board.projects().length; i++) {
-                    if (self.board.projects()[i].sequenceNumber >= sequenceNumber) {
-                        ++self.board.projects()[i].sequenceNumber;
-                    }
-                }
-            }
-
-
-            projectToUpdate.sequenceNumber = sequenceNumber;
-            $("[project-id='" + projectId + "']").remove();
-            self.board.projects.push(projectToUpdate);
-            self.board.projects.sort(function(left, right) { return left.sequenceNumber == right.sequenceNumber ? 0 : (left.sequenceNumber < right.sequenceNumber ? -1 : 1) });
-        },
-
-        UpdateTask : function(taskId, statusId, sequenceNumber) {
-            var task = self.findTask(taskId);
-            var newStatus = self.findStatus(statusId);
-            task.projectId = newStatus.projectId;
-            task.statusId = newStatus.id;
-            task.sequenceNumber = sequenceNumber;
-            $("[task-id='" + taskId + "']").remove();
-            newStatus.tasks.push(task);
-        },
-
-        UpdateSortable : function() {
-            $(".sortable-status").sortable({
-                connectWith: ".sortable-status",
-                receive: function(event, ui) {
-                    BoldRadiusKanban.SortingService.UpdateTask(ui.item.attr("task-id"), ui.item.parent().attr("status-id"));
-                }
-            });
-            $(".sortable-status").disableSelection();
-            $(".sortable-project").sortable({
-                connectWith: ".sortable-project",
-                receive: function(event, ui) {
-                    var followerSequence = ui.item.next().attr("sequence-number");
-                    var newSequence;
-                    if (followerSequence != null) {
-                        newSequence = parseInt(followerSequence) + 1;
-                    } else {
-                        newSequence = viewModel.board.projects().length;
-                    }
-                    BoldRadiusKanban.SortingService.UpdateProject(ui.item.attr("project-id"), newSequence);
-                }
-            });
-            $(".sortable-project").disableSelection();
+    SortingService.updateProject = function(project, newIndex) {
+        viewModel.board.projects.remove(project);
+        viewModel.board.projects.splice(newIndex, 0, project);
+        
+        for (var i = 0; i < viewModel.board.projects().length; i++) {
+            viewModel.board.projects()[i].sequenceNumber(i);
         }
     };
 
-    })(SortingService = BoldRadiusKanban.SortingService || {});
+    SortingService.updateTask = function(taskId, statusId, sequenceNumber) {
+        var task = viewModel.findTask(taskId);
+        var newStatus = viewModel.findStatus(statusId);
+        task.projectId = newStatus.projectId;
+        task.statusId = newStatus.id;
+        task.sequenceNumber = sequenceNumber;
+        $("[task-id='" + taskId + "']").remove();
+        newStatus.tasks.push(task);
+    };
 
-})(BoldRadiusKanban = window.BoldRadiusKanban || {});
+    SortingService.UpdateSortable = function() {
+        $(".sortable-status").sortable({
+            connectWith: ".sortable-status",
+            receive: function(event, ui) {
+                SortingService.updateTask(ui.item.attr("task-id"), ui.item.parent().attr("status-id"));
+            }
+        });
+        $(".sortable-status").disableSelection();
+        $(".sortable-project").sortable({
+            connectWith: ".sortable-project",
+            receive: function(event, ui) {
+                var projects = ui.item.parent().children();
+                var newIndex;
+                for (var i = 0; i < projects.length; i++) {
+                    if($(projects[i]).attr("project-id") == ui.item.attr("project-id")) {
+                        newIndex = i;
+                    }
+                }
+                var koProject = viewModel.findProject(ui.item.attr("project-id"));
+                $(ui.item).remove();
+                SortingService.updateProject(koProject, newIndex);
+            }
+        });
+        $(".sortable-project").disableSelection();
+    };
+
+})(SortingService = window.SortingService || {});
