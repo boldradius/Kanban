@@ -37,7 +37,8 @@
                 projectId: projectId,
                 statusId: statusId,
                 sequenceNumber: sequencyNumber,
-                userId: 0
+                userId: 0,
+                userColour: "#CCCCCC"
             };
         },
 

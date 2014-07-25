@@ -59,7 +59,7 @@
                     <!-- ko foreach: statuses -->
                     <div class="status sortable-status col-lg-height col-top col-md-4" data-bind="attr: { 'status-id' : id }">
                         <!-- ko foreach: tasks -->
-                        <div data-bind="attr: { 'task-id' : id }, click: function() {$root.editTask($data, $parents[0], $parents[1]);}" class="col-md-offset-1 col-md-5 well well-sm task">
+                        <div data-bind="attr: { 'task-id' : id, 'style': 'background-color:' + userColour() }, click: function() {$root.editTask($data, $parents[0], $parents[1]);}" class="col-md-offset-1 col-md-5 well well-sm task">
                             <span data-bind="text:name"></span><br />
                             <span data-bind="text:description" class="small"></span>
                         </div>
@@ -158,8 +158,10 @@
         var statusDone = BoldRadiusKanban.Model.Status("Done", 3);
         var task1 = BoldRadiusKanban.Model.Task("Create DB tables", "Use EF to generate Code First database", project1.id, 1, 2);
         task1.userId = 1;
+        task1.userColour = "#99CCFF";
         var task2 = BoldRadiusKanban.Model.Task("Integration tests", "Create some system-wide integration tests", project1.id, 1, 1);
         task2.userId = 2;
+        task2.userColour = "#CC9966";
         statusReady.tasks.push(task1);
         statusReady.tasks.push(task2);
         project1.statuses.push(statusReady);
@@ -172,6 +174,7 @@
         var status2Doing = BoldRadiusKanban.Model.Status("Doing", 2);
         var task3 = BoldRadiusKanban.Model.Task("Create client-side solution", "Make sure you can open source this code", project2.id, 1, 1);
         task3.userId = 3;
+        task3.userColour = "#CCCCFF";
         var status2Done = BoldRadiusKanban.Model.Status("Done", 3);
         status2Ready.tasks.push(task3);
         project2.statuses.push(status2Ready);

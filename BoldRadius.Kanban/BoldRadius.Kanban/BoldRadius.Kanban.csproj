@@ -60,6 +60,7 @@
     <Content Include="Scripts\jquery-ui-1.11.0\jquery-ui.theme.css" />
     <Content Include="Scripts\jquery-ui-1.11.0\jquery-ui.theme.min.css" />
     <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\KanbanSortingService.js" />
     <Content Include="Scripts\KanbanViewModel.js" />
     <Content Include="Scripts\knockout-3.1.0.js" />
     <Content Include="Scripts\model.js" />

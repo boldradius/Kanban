@@ -1,4 +1,5 @@
 ﻿/// <reference path="model.js" />
+/// <reference path="KanbanSortingService.js" />
 /// <reference path="knockout-3.1.0.js" />
 
 
@@ -17,6 +18,7 @@
          task.description = ko.observable(task.description);
          task.id = ko.observable(task.id);
          task.userId = ko.observable(task.userId);
+         task.userColour = ko.observable(task.userColour);
      };
 
     
@@ -62,6 +64,7 @@
          task.description(null);
          task.id(null);
          task.userId(null);
+         task.userColour(null);
      };
 
      self.clearObservedProject = function (clearProject) {
@@ -105,6 +108,7 @@
          self.taskForModal.description(task.description());
          self.taskForModal.id(task.id());
          self.taskForModal.userId(task.userId());
+         self.taskForModal.userColour(task.userColour());
 
 
          $(taskModalName).modal({
@@ -118,12 +122,17 @@
          var status = self.statusForTaskModal;
          var project = self.projectForTaskModal;
 
+         var user = self.findUser(self.taskForModal.userId());
+
          if (self.taskModalInEditMode()) {
              self.taskObjectForEdit.name(self.taskForModal.name());
              self.taskObjectForEdit.description(self.taskForModal.description());
-             self.taskObjectForEdit.userId(self.taskForModal.userId());
+             self.taskObjectForEdit.userId(user.userId);
+             self.taskObjectForEdit.userColour(user.colourHex);
          } else {
              var task = BoldRadiusKanban.Model.Task(self.taskForModal.name(), self.taskForModal.description(), project.id, status.id);
+             task.userId = self.taskForModal.userId();
+             task.userColour = user.colourHex;
              self.observeTask(task);
              status.tasks.push(task); //This line belongs in a 'model helper'
          }
@@ -157,37 +166,7 @@
          }
      };
 
-     self.updateProject = function (projectId, sequenceNumber) {
-         var projectToUpdate = self.findProject(projectId);
-         if (projectToUpdate.sequenceNumber < sequenceNumber) {
-             for (var i = 0; i < self.board.projects().length; i++) {
-                 if (self.board.projects()[i].sequenceNumber <= sequenceNumber) {
-                     --self.board.projects()[i].sequenceNumber;
-                 }
-             }
-         } else {
-             for (var i = 0; i < self.board.projects().length; i++) {
-                 if (self.board.projects()[i].sequenceNumber >= sequenceNumber) {
-                     ++self.board.projects()[i].sequenceNumber;
-                 }
-             }
-         }
-         
-         
-         projectToUpdate.sequenceNumber = sequenceNumber;
-         alert(projectToUpdate.sequenceNumber);
-         self.board.projects.sort(function (left, right) { return left.sequenceNumber == right.sequenceNumber ? 0 : (left.sequenceNumber < right.sequenceNumber ? -1 : 1) });
-     };
-
-     self.updateTask = function(taskId, statusId, sequenceNumber) {
-         var task = self.findTask(taskId);
-         var newStatus = self.findStatus(statusId);
-         task.projectId = newStatus.projectId;
-         task.statusId = newStatus.id;
-         task.sequenceNumber = sequenceNumber;
-         $("[task-id='" + taskId + "']").remove();
-         newStatus.tasks.push(task);
-     };
+     
 
      self.findTask = function(taskId) {
          for (var i = 0; i < self.board.projects().length; i++) {
@@ -219,6 +198,14 @@
          }
      };
 
+     self.findUser = function(userId) {
+         for (var i = 0; i < self.board.users.length; i++) {
+             if (self.board.users[i].id == userId) {
+                 return self.board.users[i];
+             }
+         }
+     };
+
      self.addProjectStatuses = function(project, statuses) {
          for (var i = 0; i < statuses.length; i++) {
 
@@ -244,29 +231,7 @@
          //tell server to archive task
      };
 
-     self.updateSortable = function() {
-         $(".sortable-status").sortable({
-             connectWith: ".sortable-status",
-             receive: function(event, ui) {
-                 viewModel.updateTask(ui.item.attr("task-id"), ui.item.parent().attr("status-id"));
-             }
-         });
-         $(".sortable-status").disableSelection();
-         $(".sortable-project").sortable({
-             connectWith: ".sortable-project",
-             receive: function (event, ui) {
-                 var followerSequence = ui.item.next().attr("sequence-number");
-                 var newSequence;
-                 if (followerSequence != null) {
-                     newSequence = parseInt(followerSequence) + 1;
-                 } else {
-                     newSequence = viewModel.board.projects().length;
-                 }
-                 viewModel.updateProject(ui.item.attr("project-id"), newSequence);
-             }
-         });
-         $(".sortable-project").disableSelection();
-     };
+     self.updateSortable = BoldRadiusKanban.SortingService.UpdateSortable;
 
      return self;
 
