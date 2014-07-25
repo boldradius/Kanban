@@ -175,6 +175,7 @@
          for (var i = 0; i < statuses.length; i++) {
 
              var status = BoldRadiusKanban.Model.Status(statuses[i].name, i);
+             status.colsize = statuses[i].colsize;
 
              status.tasks = ko.observableArray(status.tasks);
 
