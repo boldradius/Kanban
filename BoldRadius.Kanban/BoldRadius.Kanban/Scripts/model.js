@@ -9,12 +9,14 @@
     };
 
     BoldRadiusKanban.Model = {
-        Status: function(name, sequencyNumber) {
+        Status: function(name, sequencyNumber, projectId) {
 
             return {
                 id: BoldRadiusKanban.getNextClient(),
                 name: name,
                 sequenceNumber: sequencyNumber,
+                projectId: projectId,
+                colsize: 'col-md-3',
                 tasks: []
             };
         },

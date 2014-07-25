@@ -9,27 +9,44 @@
         }
     };
 
-    SortingService.updateTask = function(taskId, statusId, sequenceNumber) {
-        var task = viewModel.findTask(taskId);
+    SortingService.updateTask = function(task, statusId, newIndex) {
+        var oldStatus = viewModel.findStatus(task.statusId);
+        oldStatus.tasks.remove(task);
+        for (var i = 0; i < oldStatus.tasks().length; i++) {
+            oldStatus.tasks()[i].sequenceNumber(i);
+        }
+        
         var newStatus = viewModel.findStatus(statusId);
         task.projectId = newStatus.projectId;
         task.statusId = newStatus.id;
-        task.sequenceNumber = sequenceNumber;
-        $("[task-id='" + taskId + "']").remove();
-        newStatus.tasks.push(task);
+        task.sequenceNumber(newIndex);
+        newStatus.tasks.splice(newIndex, 0, task);
+        for (var j = 0; j < newStatus.tasks().length; j++) {
+            newStatus.tasks()[j].sequenceNumber(j);
+        }
     };
 
     SortingService.UpdateSortable = function() {
         $(".sortable-status").sortable({
             connectWith: ".sortable-status",
-            receive: function(event, ui) {
-                SortingService.updateTask(ui.item.attr("task-id"), ui.item.parent().attr("status-id"));
+            stop: function(event, ui) {
+                var tasks = ui.item.parent().children();
+                var newIndex;
+                for (var i = 0; i < tasks.length; i++) {
+                    if ($(tasks[i]).attr("task-id") == ui.item.attr("task-id")) {
+                        newIndex = i;
+                    }
+                }
+                var koTask = viewModel.findTask(ui.item.attr("task-id"));
+                var newParentId = ui.item.parent().attr("status-id");
+                $(ui.item).remove();
+                SortingService.updateTask(koTask, newParentId, newIndex);
             }
         });
         $(".sortable-status").disableSelection();
         $(".sortable-project").sortable({
             connectWith: ".sortable-project",
-            receive: function(event, ui) {
+            stop: function(event, ui) {
                 var projects = $(".sortable-project").children();
                 var newIndex;
                 for (var i = 0; i < projects.length; i++) {

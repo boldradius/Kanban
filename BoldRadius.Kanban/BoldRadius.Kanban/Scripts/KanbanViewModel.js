@@ -19,6 +19,7 @@
          task.id = ko.observable(task.id);
          task.userId = ko.observable(task.userId);
          task.userColour = ko.observable(task.userColour);
+         task.sequenceNumber = ko.observable(task.sequenceNumber);
      };
 
     
@@ -37,6 +38,7 @@
          for (var j = 0; j < project.statuses().length; j++) {
 
              var status = project.statuses()[j];
+             status.colsize = ko.observable(status.colsize);
 
              for (var k = 0; k < status.tasks.length; k++) {
 
@@ -46,14 +48,6 @@
              status.tasks = ko.observableArray(status.tasks);
          }
      }
-
-     self.addStatus = function(name, sequenceNumber) {
-         var status = BoldRadiusKanban.Model.Status(name, sequenceNumber);
-
-         self.board.statuses.push(status);
-     };
-
-
 
      self.observeProject = function (thisProject) {
          thisProject.name = ko.observable(thisProject.name);
@@ -67,6 +61,7 @@
          task.id(null);
          task.userId(null);
          task.userColour(null);
+         task.sequenceNumber(null);
      };
 
      self.clearObservedProject = function (clearProject) {
@@ -88,7 +83,8 @@
      self.projectModalInEditMode = false;
      self.projectObjectForEdit = null;
 
-     self.addTask = function(status, project) {
+
+     self.addTask = function (status, project) {
          self.taskModalInEditMode(false);
 
          self.statusForTaskModal = status;
